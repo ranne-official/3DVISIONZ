@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One More Level — Upgrade to Platinum | Blueprint to Builder Summit</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css?v=7">
+</head>
+<body>
+
+<div class="topbar">✅ YOUR TICKET IS SECURED — WAIT, DON'T CLOSE THIS PAGE</div>
+
+<header class="brandbar">
+  <div class="wrap">
+    <a href="index.html" class="logo">3D<span>VISIONZ</span></a>
+    <div class="meta">Exclusive One-Time Upgrade</div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Special Offer · Not Available Later</div>
+    <h1>Hold On — There's<br>One More Level</h1>
+    <p class="sub2 mt-m">You just grabbed your ticket. That's smart. But <strong class="gold">Platinum</strong> takes it to a whole different level.</p>
+    <img class="confirm-art mt-l" src="assets/badge-platinum.jpg" alt="Platinum tier" onerror="this.style.display='none'">
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow prose">
+    <p>You're registered for the Blueprint to Builder Summit. But let me tell you what Platinum gets you.</p>
+    <p>Platinum includes <strong>everything in VIP</strong> — the early Q&amp;As, the recordings, the workbook, the deep dive, the giveaway entry — all of that.</p>
+    <p>Plus something nobody else gets:</p>
+    <p class="gold" style="font-size:1.3rem;font-weight:700;">Face-to-face time with Mike. In person. Houston, Texas.</p>
+  </div>
+</section>
+
+<section class="section band">
+  <div class="wrap narrow">
+    <div class="center">
+      <div class="eyebrow">What's Included</div>
+      <h2>Platinum — $297</h2>
+      <p class="lead mt-s">Everything in VIP, <strong class="gold">PLUS:</strong></p>
+    </div>
+
+    <div class="offer-list">
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>Exclusive In-Person Houston Meetup (July 3, 2026)</h3>
+        <p>Meet Mike face-to-face. Network with the other 39 most serious builders. Private Q&amp;A. Networking dinner. <strong>Limited to 40 people total.</strong></p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>Meet &amp; Greet (2–3 Hours Early)</h3>
+        <p>Show up hours before the main event for extended face time with Mike.</p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>First Priority Question Answering</h3>
+        <p>During ALL virtual sessions (July 7–9), Platinum members get called on FIRST. Your questions jump the line. Every session.</p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>2x Giveaway Entries</h3>
+        <p>Double your chances to win the iPad or builder software subscription.</p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>Platinum-Only Private Group</h3>
+        <p>Network with the elite 40. Highest-level builders only.</p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>Behind-the-Scenes Houston Market Access</h3>
+        <p>See Mike's projects firsthand (site visits if available during meetup).</p>
+      </div></div>
+      <div class="offer-item"><div class="onum"></div><div>
+        <h3>Early Access to Future Events + Discounts</h3>
+        <p>First in line for every future 3D VISIONZ event — at the lowest price available.</p>
+        <img class="bonus-visual" src="assets/early-access.png" alt="Early access to future events and discounts" onerror="this.style.display='none'">
+      </div></div>
+    </div>
+
+    <div class="callout center" style="margin-top:36px;">
+      <p style="color:var(--gold-2);font-weight:700;">Total Value: $2,000+</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap narrow">
+    <div class="pricebox">
+      <div class="eyebrow" id="upgrade-context">Your Upgrade</div>
+      <div class="total">$297</div>
+      <p class="terms">Your Total Platinum Investment</p>
+      <p class="mt-s" id="upgrade-delta" style="color:var(--gold-2);font-weight:700;"></p>
+      <p class="scarcity">Only 40 Spots Available. Once They're Gone, They're Gone.</p>
+      <div class="mt-l">
+        <a href="platinum-confirmation.html" class="btn btn-gold btn-lg btn-block">Yes! Upgrade to Platinum</a>
+      </div>
+      <a href="ga-confirmation.html" id="skip" class="skiplink">No thanks, continue to my confirmation page</a>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <a href="index.html" class="logo">3D<span>VISIONZ</span></a>
+    <p>© 2026 3D VISIONZ · Blueprint to Builder Summit</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>
+  // Adjust copy + routing based on the ticket the user just bought
+  (function () {
+    var from = new URLSearchParams(location.search).get("from") || "ga";
+    var ctx = document.getElementById("upgrade-context");
+    var delta = document.getElementById("upgrade-delta");
+    var skip = document.getElementById("skip");
+    if (from === "vip") {
+      ctx.textContent = "Because you purchased VIP ($97)";
+      delta.textContent = "Platinum Upgrade: just $200 more →  Total $297";
+      skip.setAttribute("href", "vip-confirmation.html");
+    } else {
+      ctx.textContent = "Because you purchased GA ($27)";
+      delta.textContent = "Platinum Upgrade: $270 more →  Total $297";
+      skip.setAttribute("href", "ga-confirmation.html");
+    }
+  })();
+</script>
+</body>
+</html>

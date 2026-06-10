@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Checkout — Blueprint to Builder Summit | 3D VISIONZ</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css?v=7">
+<link rel="stylesheet" href="assets/summit.css?v=2">
+</head>
+<body>
+
+<div class="topbar">🔒 SECURE CHECKOUT · POWERED BY SQUARE</div>
+
+<header class="brandbar">
+  <div class="wrap">
+    <a href="summit.html" class="logo">3D<span>VISIONZ</span></a>
+    <div class="meta">Checkout</div>
+  </div>
+</header>
+
+<section class="section">
+  <div class="wrap">
+    <div class="center">
+      <div class="eyebrow">Almost In</div>
+      <h2>Complete Your Registration</h2>
+    </div>
+
+    <div class="checkout-grid">
+      <!-- FORM
+           NOTE FOR GHL BUILD: rebuild this as a GHL order form with the Square payment
+           element. Field names below match the GHL contact/custom fields in the spec.
+           The hidden `tier` + `tier_price` carry the selected product into the order. -->
+      <form class="form-card" data-demo data-next="summit-ty-ga.html" id="checkout-form">
+        <input type="hidden" name="tier" id="f-tier" value="ga">
+        <input type="hidden" name="tier_price" id="f-price" value="27">
+
+        <h3 style="font-size:1.2rem;margin-bottom:6px;">Your Details</h3>
+        <div class="form-grid">
+          <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
+          <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
+          <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
+          <div class="field"><label>Phone</label><input type="tel" name="phone" autocomplete="tel" required></div>
+        </div>
+
+        <h3 style="font-size:1.2rem;margin:28px 0 6px;">Billing</h3>
+        <div class="form-grid">
+          <div class="field full"><label>Card Number</label><input type="text" inputmode="numeric" name="card_number" placeholder="•••• •••• •••• ••••" aria-label="Card number (Square element on live build)"></div>
+          <div class="field"><label>Expiry</label><input type="text" name="card_exp" placeholder="MM / YY"></div>
+          <div class="field"><label>CVC</label><input type="text" name="card_cvc" placeholder="•••"></div>
+          <div class="field"><label>Billing ZIP</label><input type="text" name="billing_zip"></div>
+          <div class="field full"><label>Country</label>
+            <select name="billing_country"><option>United States</option><option>Canada</option><option>Other</option></select>
+          </div>
+        </div>
+        <p class="form-note">Card fields are placeholders for the layout. On the live build these are replaced by the <strong>Square payment element</strong> inside the GHL order form.</p>
+
+        <!-- ORDER BUMP [SWAP] -->
+        <div class="bump">
+          <input type="checkbox" name="order_bump" id="bump" value="1">
+          <label for="bump"><b>YES — add the [SWAP — order bump name]</b> for just <b>$[SWAP]</b>. [One-line order-bump description pending.]</label>
+        </div>
+
+        <button type="submit" class="btn btn-gold btn-block btn-lg">Complete My Order →</button>
+
+        <div class="trust-strip">
+          <span>Secure checkout via Square</span>
+          <span class="g">All payment options shown</span>
+          <span class="c">Hosted by Mike Jenkins · 100+ deals</span>
+        </div>
+        <p class="pay-note">No refunds. By completing your order you agree to the summit terms.</p>
+      </form>
+
+      <!-- DYNAMIC SUMMARY -->
+      <aside class="summary">
+        <div class="eyebrow">Order Summary</div>
+        <div class="srow"><span>Ticket</span><span class="stier" id="s-tier">General Admission</span></div>
+        <div class="srow"><span>Blueprint to Builder Summit</span><span id="s-price">$27</span></div>
+        <div class="srow" id="s-bump-row" style="display:none;"><span>[SWAP order bump]</span><span id="s-bump">$0</span></div>
+        <div class="srow"><span><b>Total Today</b></span><span class="stotal" id="s-total">$27</span></div>
+        <ul class="checklist" style="margin-top:18px;" id="s-includes">
+          <li class="inc">3 nights live with Mike Jenkins</li>
+          <li class="inc">Private community access</li>
+          <li class="inc">Replay access</li>
+        </ul>
+        <p style="color:var(--text-mute);font-size:.84rem;">July 7–9, 2026 · 8 PM EST nightly. VIP &amp; Platinum: Q&amp;A at 7 PM EST.</p>
+        <a href="summit.html#tickets" class="skiplink">← Change ticket</a>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="wrap">
+    <a href="summit.html" class="logo">3D<span>VISIONZ</span></a>
+    <p>© 2026 3D VISIONZ · Blueprint to Builder Summit</p>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+<script>
+  // Dynamic tier summary + route to the correct thank-you page.
+  (function () {
+    var TIERS = {
+      ga:       { name: "General Admission", price: 27,  ty: "summit-ty-ga.html",
+                  inc: ["3 nights live with Mike Jenkins", "Private community access", "Replay access (shortest window)"] },
+      vip:      { name: "VIP", price: 97, ty: "summit-ty-vip.html",
+                  inc: ["3 nights live with Mike Jenkins", "Private community access", "Live Rick Ross Q&A", "Zoom background + workbook + Telegram", "Networking Night", "Replay access"] },
+      platinum: { name: "Platinum", price: 497, ty: "summit-ty-platinum.html",
+                  inc: ["Everything in VIP", "Platinum bonuses [SWAP]", "Tier Telegram chat", "Networking Night", "Replay access (longest window)"] }
+    };
+    var BUMP_PRICE = 0; // [SWAP] set when order bump confirmed
+    var params = new URLSearchParams(location.search);
+    var key = (params.get("tier") || "ga").toLowerCase();
+    var t = TIERS[key] || TIERS.ga;
+
+    document.getElementById("f-tier").value = key;
+    document.getElementById("f-price").value = t.price;
+    document.getElementById("s-tier").textContent = t.name;
+    document.getElementById("s-price").textContent = "$" + t.price;
+    document.getElementById("checkout-form").setAttribute("data-next", t.ty);
+
+    var inc = document.getElementById("s-includes");
+    inc.innerHTML = t.inc.map(function (i) { return '<li class="inc">' + i + "</li>"; }).join("");
+
+    function recalc() {
+      var bumped = document.getElementById("bump").checked;
+      var row = document.getElementById("s-bump-row");
+      row.style.display = bumped ? "flex" : "none";
+      document.getElementById("s-bump").textContent = "$" + BUMP_PRICE;
+      document.getElementById("s-total").textContent = "$" + (t.price + (bumped ? BUMP_PRICE : 0));
+    }
+    document.getElementById("bump").addEventListener("change", recalc);
+    recalc();
+  })();
+</script>
+</body>
+</html>
