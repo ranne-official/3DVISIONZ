@@ -139,7 +139,14 @@
 .checklist li.exc:before { content: "✕"; color: var(--red-2); text-decoration: none; }
 .tier-cta { margin-top: auto; }
 .stub-slot { margin-top: 16px; }
-.stub-slot .slot { aspect-ratio: 600/210; }
+/* filled stub: show the whole transparent ticket, no placeholder box */
+.stub-slot .slot { aspect-ratio: 1280/680; border: 0; background: transparent; min-height: 0; overflow: visible; }
+.stub-slot .slot > img { object-fit: contain; }
+.stub-slot .slot-tag { display: none; }
+/* if the art is missing, restore the labeled placeholder */
+.stub-slot .slot.empty { aspect-ratio: 600/210; border: 1px dashed var(--gold-deep);
+  background: linear-gradient(135deg, var(--bg-card-2), var(--bg-card)); min-height: 60px; }
+.stub-slot .slot.empty .slot-tag { display: inline-block; }
 
 /* ---------- Special guest + emcee ---------- */
 .guest-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 40px; max-width: 760px; margin-left: auto; margin-right: auto; }
