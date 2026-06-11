@@ -275,6 +275,11 @@
   cursor: pointer; font-size: .9rem; background: none; border: 0; font-family: var(--font); }
 .back-link:hover { color: var(--text-dim); }
 
+/* Phone with country-code select */
+.phone-row { display: flex; gap: 8px; }
+.phone-row .ccode { flex: none; width: auto; max-width: 150px; }
+.phone-row input { flex: 1; min-width: 0; }
+
 /* OTP / email verification */
 .otp { display: flex; gap: 10px; justify-content: center; margin: 22px 0 8px; }
 .otp input {
