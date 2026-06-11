@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v=7">
-<link rel="stylesheet" href="assets/summit.css?v=3">
+<link rel="stylesheet" href="assets/summit.css?v=4">
 </head>
 <body>
 
@@ -31,45 +31,46 @@
   </div>
 </header>
 
-<!-- ============================ HERO ============================ -->
-<section class="hero hero-split" id="top">
-  <!-- slot (background): 1_Hero_Image_B.jpg -->
-  <div class="hero-bg bg-slot" style="background-image:url('assets/1_Hero_Image_B.jpg')"></div>
+<!-- ============================ HERO (reference layout: figure left, copy right) ============================ -->
+<section class="hero hero-ref" id="top">
+  <div class="hero-ref-bg"></div>
   <div class="wrap">
-    <div class="hero-grid">
-      <div class="hero-copy">
-        <div class="slot contain logo-slot" style="aspect-ratio:360/120">
-          <!-- slot: 2_Logo.png (Blueprint to Builder Summit logo) -->
-          <img src="assets/2_Logo.png" alt="Blueprint to Builder Summit" onerror="this.closest('.slot').remove()">
-          <span class="slot-tag">2_Logo.png</span>
-        </div>
-        <h1>Blueprint to Builder Summit</h1>
-        <div class="when">July 7–9, 2026 &nbsp;|&nbsp; 8 PM EST</div>
-        <p class="sub-line">3 nights. The new construction blueprint. Build from the ground up.</p>
+    <div class="hero-ref-grid">
 
-        <div class="proof-row">
-          <div class="avatars" aria-label="Builders attending">
-            <span class="avatar">MJ</span><span class="avatar">CB</span><span class="avatar">DW</span>
-            <span class="avatar">TR</span><span class="avatar">KL</span><span class="avatar">+</span>
-          </div>
-          <div>
-            <div class="stars">★★★★★</div>
-            <div class="trust">Trusted By 100+ builders</div>
-          </div>
-        </div>
-
-        <div class="mt-l">
-          <a href="#tickets" class="btn btn-gold btn-lg">SAVE MY SEAT</a>
-        </div>
+      <!-- Mike figure (left). slot: 1_Hero_Image.png — falls back to the banner crop -->
+      <div class="hero-ref-photo">
+        <img src="assets/hero-left.jpg" alt="Mike Jenkins — host, Blueprint to Builder Summit">
       </div>
 
-      <div class="hero-media">
-        <div class="slot led">
-          <!-- slot: 1_Hero_Image.png (Mike cutout) -->
-          <img src="assets/1_Hero_Image.png" alt="Mike Jenkins" onerror="this.closest('.slot').classList.add('empty');this.remove()">
-          <span class="slot-tag">1_Hero_Image.png<br>(Mike cutout)</span>
+      <!-- Copy (right) -->
+      <div class="hero-ref-copy">
+        <div class="slot contain hero-logo" style="aspect-ratio:300/100">
+          <!-- slot: 2_Logo.png -->
+          <img src="assets/2_Logo.png" alt="3D VISIONZ" onerror="this.closest('.slot').remove()">
+          <span class="slot-tag">2_Logo.png</span>
         </div>
-        <div id="cd" class="countdown" data-countdown="2026-07-08T00:00:00Z"></div>
+
+        <h1 class="ref-title">
+          <span class="l1">Blueprint To</span>
+          <span class="l2">Builder</span>
+          <span class="l3">Summit</span>
+        </h1>
+
+        <div class="ref-date">July 7–9, 2026 &nbsp;·&nbsp; 8 PM EST</div>
+
+        <div class="ref-avatars" aria-label="Builders attending">
+          <span class="a">MJ</span><span class="a">CB</span><span class="a">DW</span>
+          <span class="a">TR</span><span class="a">KL</span><span class="a">JS</span><span class="a">+</span>
+        </div>
+
+        <div class="ref-trust"><span class="stars">★★★★★</span> Trusted By 100+ Builders</div>
+
+        <a href="#tickets" class="ref-cta">
+          <div class="ref-cta-main">RESERVE YOUR SEAT NOW! 🎟</div>
+          <div class="ref-cta-sub">Join The Blueprint to Builder Summit</div>
+        </a>
+
+        <div id="cd" class="countdown" data-countdown="2026-07-08T00:00:00Z" style="justify-content:flex-start;margin-top:24px;"></div>
       </div>
     </div>
   </div>

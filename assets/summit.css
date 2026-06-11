@@ -100,6 +100,66 @@
 .stars { color: var(--gold); letter-spacing: 2px; font-size: 1.05rem; }
 .trust { color: var(--text-dim); font-weight: 600; font-size: .95rem; }
 
+/* ---------- Reference-style hero (figure left, copy right) ---------- */
+.hero-ref { position: relative; overflow: hidden; padding: 0; background: #04140e; }
+.hero-ref-bg { position: absolute; inset: 0; z-index: 0;
+  background: radial-gradient(720px 400px at 94% 6%, rgba(47,191,113,.30), transparent 60%),
+              linear-gradient(180deg, #07241a, #04140e); }
+.hero-ref-bg:before { content:""; position:absolute; inset:0;
+  background-image: linear-gradient(rgba(47,191,113,.07) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(47,191,113,.07) 1px, transparent 1px);
+  background-size: 54px 54px;
+  -webkit-mask-image: radial-gradient(900px 520px at 55% 55%, #000, transparent 82%);
+          mask-image: radial-gradient(900px 520px at 55% 55%, #000, transparent 82%); }
+.hero-ref-grid { position: relative; z-index: 1; display: grid;
+  grid-template-columns: 0.92fr 1.18fr; gap: 16px; align-items: end; min-height: 560px; }
+.hero-ref-photo { align-self: end; }
+.hero-ref-photo img { display:block; width:100%; height:auto; max-height: 640px; object-fit: contain; object-position: bottom left;
+  -webkit-mask-image: linear-gradient(to right, #000 70%, transparent 98%);
+          mask-image: linear-gradient(to right, #000 70%, transparent 98%); }
+.hero-ref-copy { padding: 44px 0 56px; }
+.hero-ref-copy .hero-logo { max-width: 240px; margin-bottom: 12px; border:0; background:transparent; min-height:0; }
+.hero-ref-copy .hero-logo .slot-tag { font-size:.6rem; }
+
+.ref-title { font-family: var(--font-head); line-height: .9; margin: 4px 0 0; text-transform: uppercase; }
+.ref-title span { display: block; }
+.ref-title .l1 { font-size: clamp(2rem,4.6vw,3.8rem); color: var(--green); text-shadow: 0 0 18px rgba(47,191,113,.55); }
+.ref-title .l2 { font-size: clamp(2.6rem,6.4vw,5.2rem); color: #f3efe2; text-shadow: 0 0 22px rgba(243,239,226,.35); }
+.ref-title .l3 { font-size: clamp(1.4rem,3vw,2.3rem); letter-spacing: .26em; margin-top: 8px;
+  color: transparent; -webkit-text-stroke: 1.5px var(--gold); text-stroke: 1.5px var(--gold);
+  border-bottom: 3px solid var(--gold); padding-bottom: 6px; display: inline-block; }
+
+.ref-date { font-family: var(--font-head); color:#fff; font-size: clamp(1.05rem,2.2vw,1.5rem); letter-spacing:.05em; margin-top: 18px; }
+
+.ref-avatars { display:flex; margin-top: 18px; }
+.ref-avatars .a { width:46px; height:46px; border-radius:50%; margin-left:-12px; border:3px solid #07241a;
+  overflow:hidden; background:linear-gradient(160deg,var(--bg-card-2),#062017);
+  display:flex; align-items:center; justify-content:center; color:var(--text-mute); font-size:.68rem; font-weight:700; }
+.ref-avatars .a:first-child { margin-left:0; }
+.ref-avatars .a img { width:100%; height:100%; object-fit:cover; }
+
+.ref-trust { display:flex; align-items:center; gap:12px; margin-top:16px; font-weight:800; color:#f3efe2; font-size:1.1rem; }
+.ref-trust .stars { color: var(--gold); letter-spacing:2px; font-size:1.3rem; }
+
+.ref-cta { display:block; margin-top:26px; max-width:560px; text-align:center;
+  background: linear-gradient(180deg,#eef2f3,#d2dad8); color:#0a1f17; border-radius:12px;
+  padding:20px 24px; box-shadow:0 16px 40px rgba(0,0,0,.45); transition:transform .15s ease, filter .15s ease; }
+.ref-cta:hover { transform:translateY(-2px); filter:brightness(1.03); }
+.ref-cta-main { font-family:var(--font-head); font-size:clamp(1.3rem,2.6vw,1.9rem); letter-spacing:.02em; }
+.ref-cta-sub { font-weight:700; color:#2a4a3c; font-size:.95rem; margin-top:6px; }
+
+@media (max-width: 900px) {
+  .hero-ref-grid { grid-template-columns: 1fr; align-items: center; min-height: 0; gap: 0; }
+  .hero-ref-photo { max-width: 360px; margin: 0 auto; order: -1; }
+  .hero-ref-photo img { -webkit-mask-image:none; mask-image:none; }
+  .hero-ref-copy { text-align: center; padding: 14px 0 36px; }
+  .hero-ref-copy .hero-logo { margin-left:auto; margin-right:auto; }
+  .ref-title .l3 { display:inline-block; }
+  .ref-avatars, .ref-trust { justify-content: center; }
+  .ref-cta { margin-left:auto; margin-right:auto; }
+  .hero-ref-copy .countdown { justify-content:center !important; }
+}
+
 /* ---------- VSL ---------- */
 .sticker {
   display: inline-block; font-family: var(--font-head); letter-spacing: .12em;
