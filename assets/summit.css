@@ -169,10 +169,11 @@
 
 /* ---------- VSL ---------- */
 .sticker {
-  display: inline-block; font-family: var(--font-head); letter-spacing: .12em;
+  display: inline-block; font-family: var(--font-head); letter-spacing: .14em;
   background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306;
-  padding: 6px 18px; border-radius: 8px; transform: rotate(-3deg); font-size: 1rem;
-  box-shadow: var(--shadow-gold); margin-bottom: 14px;
+  padding: 14px 40px; border-radius: 12px; transform: rotate(-3deg);
+  font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1;
+  box-shadow: var(--shadow-gold); margin-bottom: 26px;
 }
 
 /* ---------- Tier comparison (high → low: Platinum, VIP, GA) ---------- */
