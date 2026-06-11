@@ -54,6 +54,12 @@
   .slot.led, .slot.led::before, .slot.led::after { animation: none; }
 }
 
+/* Day tiles: show the transparent product cleanly (drop the placeholder box/label) */
+.day-graphic.slot { border: 0; }
+.day-graphic.slot .slot-tag { display: none; }
+.day-graphic.slot.empty { border: 1px dashed var(--gold-deep); }
+.day-graphic.slot.empty .slot-tag { display: inline-block; }
+
 /* background-image slots fall back to the brand gradient if art is missing */
 .bg-slot { background-size: cover; background-position: center; }
 .bg-dark  { background-color: var(--bg-alt); }
