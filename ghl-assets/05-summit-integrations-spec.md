@@ -77,21 +77,10 @@ Step 2 is the Square payment. Capturing contact on Step 1 is what makes abandon-
 - **Trigger:** has `b2b_cart_abandon` AND **no** Payment Received in 45 min.
 - **Sequence:** Email #1 (45 min) → SMS (4 hr) → Email #2 (24 hr, scarcity).
 - **Exit:** on Payment Received (Workflow 1 also removes `b2b_cart_abandon`).
-> The static page mirrors this: Step 1's "Continue" runs `captureCartStart()`
+> The static page mirrors this: Step 1's "Continue to Payment" runs `captureCartStart()`
 > (pushes a `cart_start` dataLayer event) before revealing Step 2. Wire that hook to the
-> GHL form-step / pixel on the live build.
-
-### Email OTP verification (between Info and Payment)
-The flow is **Info → Verify (email OTP) → Payment**. After Step 1 the contact gets a
-**6-digit email code** they must enter before the payment step unlocks.
-- **Purpose:** confirms a real, reachable email before charging — cleaner list, fewer chargebacks/typos.
-- **Cart-start still fires first:** the contact + `b2b_cart_abandon` are captured on Step 1
-  (before OTP), so abandons are still recovered even if they never verify.
-- **Build options:** Twilio **Verify**, an email-code provider, or a GHL workflow that emails
-  a generated code to a custom field and validates the input. On success → fire `email_verified`
-  + (optional) tag `b2b_email_verified`, then reveal the Square payment step.
-- **Static demo:** the code is generated/validated in-browser and shown as a "Demo only" hint
-  (`sendOtp()` in `summit-checkout.html`). Remove that hint and wire the real send/verify on launch.
+> GHL form-step / pixel on the live build. (The phone select submits `phone_country`; the
+> page concatenates it with the number for E.164-style storage.)
 
 ## WORKFLOW 7 — GHL → ClickUp
 **Trigger:** Payment Received. **Action:** create a fulfillment task in ClickUp (buyer name, tier, email) for delivery/QA.
