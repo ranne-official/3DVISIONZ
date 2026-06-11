@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v=7">
-<link rel="stylesheet" href="assets/summit.css?v=9">
+<link rel="stylesheet" href="assets/summit.css?v=10">
 </head>
 <body>
 
@@ -34,44 +34,64 @@
            NOTE FOR GHL BUILD: rebuild this as a GHL order form with the Square payment
            element. Field names below match the GHL contact/custom fields in the spec.
            The hidden `tier` + `tier_price` carry the selected product into the order. -->
+      <!-- 2-STEP ORDER FORM
+           Step 1 captures the contact (name/email/phone) so a started-but-unpaid checkout
+           is recorded as an abandon-cart START. On the GHL build, advancing to Step 2 is
+           where the 2-step order form creates/updates the contact and tags it
+           (b2b_cart_abandon) — the FB Lead event fires here too. Step 2 = Square payment. -->
       <form class="form-card" data-demo data-next="summit-ty-ga.html" id="checkout-form">
         <input type="hidden" name="tier" id="f-tier" value="ga">
         <input type="hidden" name="tier_price" id="f-price" value="27">
 
-        <h3 style="font-size:1.2rem;margin-bottom:6px;">Your Details</h3>
-        <div class="form-grid">
-          <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
-          <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
-          <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
-          <div class="field"><label>Phone</label><input type="tel" name="phone" autocomplete="tel" required></div>
+        <div class="step-bar">
+          <div class="sb active" id="sb1"><span class="n"><span>1</span></span> Your Info</div>
+          <div class="sb" id="sb2"><span class="n"><span>2</span></span> Payment</div>
         </div>
 
-        <h3 style="font-size:1.2rem;margin:28px 0 6px;">Billing</h3>
-        <div class="form-grid">
-          <div class="field full"><label>Card Number</label><input type="text" inputmode="numeric" name="card_number" placeholder="•••• •••• •••• ••••" aria-label="Card number (Square element on live build)"></div>
-          <div class="field"><label>Expiry</label><input type="text" name="card_exp" placeholder="MM / YY"></div>
-          <div class="field"><label>CVC</label><input type="text" name="card_cvc" placeholder="•••"></div>
-          <div class="field"><label>Billing ZIP</label><input type="text" name="billing_zip"></div>
-          <div class="field full"><label>Country</label>
-            <select name="billing_country"><option>United States</option><option>Canada</option><option>Other</option></select>
+        <!-- STEP 1 — contact (abandon-cart start) -->
+        <div class="fstep" data-step="1" id="step1">
+          <h3 style="font-size:1.2rem;margin-bottom:6px;">Where Should We Send Your Access?</h3>
+          <p class="form-note">Step 1 of 2 — reserve your spot. You won't be charged yet.</p>
+          <div class="form-grid">
+            <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
+            <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
+            <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
+            <div class="field"><label>Phone</label><input type="tel" name="phone" autocomplete="tel" required></div>
           </div>
-        </div>
-        <p class="form-note">Card fields are placeholders for the layout. On the live build these are replaced by the <strong>Square payment element</strong> inside the GHL order form.</p>
-
-        <!-- ORDER BUMP [SWAP] -->
-        <div class="bump">
-          <input type="checkbox" name="order_bump" id="bump" value="1">
-          <label for="bump"><b>YES — add the [SWAP — order bump name]</b> for just <b>$[SWAP]</b>. [One-line order-bump description pending.]</label>
+          <button type="button" id="to-step2" class="btn btn-gold btn-block btn-lg" style="margin-top:8px;">Continue to Payment →</button>
+          <p class="pay-note">No spam — your info secures your seat and your session reminders.</p>
         </div>
 
-        <button type="submit" class="btn btn-gold btn-block btn-lg">Complete My Order →</button>
+        <!-- STEP 2 — billing / payment -->
+        <div class="fstep" data-step="2" id="step2" hidden>
+          <h3 style="font-size:1.2rem;margin:0 0 6px;">Payment</h3>
+          <div class="form-grid">
+            <div class="field full"><label>Card Number</label><input type="text" inputmode="numeric" name="card_number" placeholder="•••• •••• •••• ••••" aria-label="Card number (Square element on live build)"></div>
+            <div class="field"><label>Expiry</label><input type="text" name="card_exp" placeholder="MM / YY"></div>
+            <div class="field"><label>CVC</label><input type="text" name="card_cvc" placeholder="•••"></div>
+            <div class="field"><label>Billing ZIP</label><input type="text" name="billing_zip"></div>
+            <div class="field full"><label>Country</label>
+              <select name="billing_country"><option>United States</option><option>Canada</option><option>Other</option></select>
+            </div>
+          </div>
+          <p class="form-note">Card fields are placeholders for the layout. On the live build these are replaced by the <strong>Square payment element</strong> inside the GHL order form.</p>
 
-        <div class="trust-strip">
-          <span>Secure checkout via Square</span>
-          <span class="g">All payment options shown</span>
-          <span class="c">Hosted by Mike Jenkins · 100+ deals</span>
+          <!-- ORDER BUMP [SWAP] -->
+          <div class="bump">
+            <input type="checkbox" name="order_bump" id="bump" value="1">
+            <label for="bump"><b>YES — add the [SWAP — order bump name]</b> for just <b>$[SWAP]</b>. [One-line order-bump description pending.]</label>
+          </div>
+
+          <button type="submit" class="btn btn-gold btn-block btn-lg">Complete My Order →</button>
+
+          <div class="trust-strip">
+            <span>Secure checkout via Square</span>
+            <span class="g">All payment options shown</span>
+            <span class="c">Hosted by Mike Jenkins · 100+ deals</span>
+          </div>
+          <button type="button" class="back-link" id="back-step1">← Back to your info</button>
+          <p class="pay-note">No refunds. By completing your order you agree to the summit terms.</p>
         </div>
-        <p class="pay-note">No refunds. By completing your order you agree to the summit terms.</p>
       </form>
 
       <!-- DYNAMIC SUMMARY -->
@@ -135,6 +155,48 @@
     }
     document.getElementById("bump").addEventListener("change", recalc);
     recalc();
+
+    // ---- 2-step flow + abandon-cart START capture ----
+    var step1 = document.getElementById("step1"), step2 = document.getElementById("step2");
+    var sb1 = document.getElementById("sb1"), sb2 = document.getElementById("sb2");
+    var form = document.getElementById("checkout-form");
+    var captured = false;
+
+    function step1Valid() {
+      return ["first_name", "last_name", "email", "phone"].every(function (n) {
+        var el = form.querySelector('[name="' + n + '"]');
+        if (!el.checkValidity()) { el.reportValidity(); return false; }
+        return true;
+      });
+    }
+
+    function captureCartStart() {
+      if (captured) return;
+      captured = true;
+      var data = {
+        tier: t.name, tier_key: key,
+        first_name: form.first_name.value, last_name: form.last_name.value,
+        email: form.email.value, phone: form.phone.value
+      };
+      // GHL BUILD: this is the abandon-cart START. The 2-step order form creates/updates
+      // the contact here and tags it (b2b_cart_abandon). Fire FB Lead + dataLayer too.
+      if (window.dataLayer) window.dataLayer.push({ event: "cart_start", tier: key });
+      try { console.log("[cart_start] captured:", data); } catch (e) {}
+    }
+
+    document.getElementById("to-step2").addEventListener("click", function () {
+      if (!step1Valid()) return;
+      captureCartStart();
+      step1.hidden = true; step2.hidden = false;
+      sb1.classList.add("done"); sb2.classList.add("active");
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    document.getElementById("back-step1").addEventListener("click", function () {
+      step2.hidden = true; step1.hidden = false;
+      sb2.classList.remove("active"); sb1.classList.remove("done");
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   })();
 </script>
 </body>

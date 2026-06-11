@@ -258,6 +258,23 @@
 .trust-strip span.c:before { content: "★"; color: var(--gold); }
 .pay-note { text-align: center; color: var(--text-mute); font-size: .85rem; margin-top: 14px; }
 
+/* ---------- 2-step order form ---------- */
+.step-bar { display: flex; gap: 10px; margin-bottom: 24px; }
+.step-bar .sb { flex: 1; display: flex; align-items: center; gap: 10px; padding: 11px 14px; border-radius: 10px;
+  background: var(--bg); border: 1px solid var(--line); color: var(--text-mute); font-weight: 700; font-size: .9rem; }
+.step-bar .sb .n { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card-2); color: var(--text-dim); font-size: .82rem; flex: none; }
+.step-bar .sb.active { border-color: var(--gold); color: var(--text); }
+.step-bar .sb.active .n { background: linear-gradient(180deg, var(--gold-2), var(--gold-deep)); color: #1a1306; }
+.step-bar .sb.done { border-color: var(--green); color: var(--text-dim); }
+.step-bar .sb.done .n { background: var(--green); color: #04140e; }
+.step-bar .sb.done .n:after { content: "✓"; }
+.step-bar .sb.done .n span { display: none; }
+.fstep[hidden] { display: none; }
+.back-link { display: inline-block; margin-top: 14px; color: var(--text-mute); text-decoration: underline;
+  cursor: pointer; font-size: .9rem; background: none; border: 0; font-family: var(--font); }
+.back-link:hover { color: var(--text-dim); }
+
 /* ---------- Upgrade band (thank-you pages) ---------- */
 .upgrade-band {
   background: linear-gradient(135deg, rgba(211,173,87,.12), rgba(31,122,89,.10));

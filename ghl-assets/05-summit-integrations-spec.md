@@ -69,9 +69,17 @@ Payment processor: **Square** (native in GHL order forms). HTO is **off this pag
 - **Platinum:** confirm everything + bonuses + Telegram; no upsell.
 All branches: deliver Zoom link, calendar invite (.ics), community link.
 
-## WORKFLOW 6 — Abandon cart (email + SMS)
-**Trigger:** `b2b_pageview` + reached checkout, **no** Payment Received in 45 min → add `b2b_cart_abandon`.
-Sequence: Email #1 (45 min) → SMS (4 hr) → Email #2 (24 hr, scarcity). Exit on Payment Received.
+## WORKFLOW 6 — Abandon cart (email + SMS) — 2-STEP CAPTURE
+The checkout is a **2-step order form**. Step 1 (name/email/phone) is the **cart START**;
+Step 2 is the Square payment. Capturing contact on Step 1 is what makes abandon-cart possible.
+- **Build:** use GHL's native **2-Step Order Form**. Completing Step 1 creates/updates the
+  contact *before* payment. On Step 1 submit → add `b2b_cart_abandon` + fire FB **Lead** (CAPI).
+- **Trigger:** has `b2b_cart_abandon` AND **no** Payment Received in 45 min.
+- **Sequence:** Email #1 (45 min) → SMS (4 hr) → Email #2 (24 hr, scarcity).
+- **Exit:** on Payment Received (Workflow 1 also removes `b2b_cart_abandon`).
+> The static page mirrors this: Step 1's "Continue to Payment" runs `captureCartStart()`
+> (pushes a `cart_start` dataLayer event) before revealing Step 2. Wire that hook to the
+> GHL form-step / pixel on the live build.
 
 ## WORKFLOW 7 — GHL → ClickUp
 **Trigger:** Payment Received. **Action:** create a fulfillment task in ClickUp (buyer name, tier, email) for delivery/QA.
