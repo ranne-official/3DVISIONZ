@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v=7">
-<link rel="stylesheet" href="assets/summit.css?v=12">
+<link rel="stylesheet" href="assets/summit.css?v=13">
 </head>
 <body>
 
@@ -58,7 +58,7 @@
             <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
             <div class="field"><label>Phone</label>
               <div class="phone-row">
-                <select name="phone_country" id="phone-country" class="ccode" aria-label="Country dialing code"></select>
+                <select name="phone_country" id="phone-country" class="ccode" aria-label="Phone code"></select>
                 <input type="tel" name="phone" autocomplete="tel" placeholder="Phone number" required>
               </div>
             </div>
@@ -206,11 +206,14 @@
     (function () {
       var sel = document.getElementById("phone-country");
       if (!sel) return;
-      COUNTRIES.forEach(function (c) {
+      // show only the dialing code (e.g. +1, +44) — unique + sorted
+      var codes = COUNTRIES.map(function (c) { return c[1]; });
+      codes = codes.filter(function (v, i) { return codes.indexOf(v) === i; });
+      codes.sort(function (a, b) { return parseInt(a.slice(1), 10) - parseInt(b.slice(1), 10); });
+      codes.forEach(function (code) {
         var o = document.createElement("option");
-        o.value = c[1];
-        o.textContent = c[0] + " (" + c[1] + ")";
-        if (c[0] === "United States") o.selected = true;   // default
+        o.value = code; o.textContent = code;
+        if (code === "+1") o.selected = true;   // default
         sel.appendChild(o);
       });
     })();

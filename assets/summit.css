@@ -277,7 +277,7 @@
 
 /* Phone with country-code select */
 .phone-row { display: flex; gap: 8px; }
-.phone-row .ccode { flex: none; width: auto; max-width: 150px; }
+.phone-row .ccode { flex: none; width: auto; max-width: 110px; }
 .phone-row input { flex: 1; min-width: 0; }
 
 /* OTP / email verification */
