@@ -275,6 +275,21 @@
   cursor: pointer; font-size: .9rem; background: none; border: 0; font-family: var(--font); }
 .back-link:hover { color: var(--text-dim); }
 
+/* OTP / email verification */
+.otp { display: flex; gap: 10px; justify-content: center; margin: 22px 0 8px; }
+.otp input {
+  width: 52px; height: 60px; text-align: center; font-family: var(--font-head); font-size: 1.7rem;
+  background: var(--bg); border: 1px solid var(--line); border-radius: 10px; color: var(--text);
+}
+.otp input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(211,173,87,.18); }
+.otp.bad input { border-color: var(--red-2); animation: otp-shake .3s; }
+@keyframes otp-shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+.otp-msg { text-align: center; font-weight: 700; font-size: .92rem; min-height: 20px; margin-bottom: 8px; }
+.otp-msg.err { color: var(--red-2); }
+.otp-msg.ok { color: var(--green); }
+.verify-head { text-align: center; }
+@media (max-width: 480px) { .otp input { width: 42px; height: 52px; font-size: 1.4rem; } .otp { gap: 7px; } }
+
 /* ---------- Upgrade band (thank-you pages) ---------- */
 .upgrade-band {
   background: linear-gradient(135deg, rgba(211,173,87,.12), rgba(31,122,89,.10));

@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/styles.css?v=7">
-<link rel="stylesheet" href="assets/summit.css?v=10">
+<link rel="stylesheet" href="assets/summit.css?v=11">
 </head>
 <body>
 
@@ -45,25 +45,50 @@
 
         <div class="step-bar">
           <div class="sb active" id="sb1"><span class="n"><span>1</span></span> Your Info</div>
-          <div class="sb" id="sb2"><span class="n"><span>2</span></span> Payment</div>
+          <div class="sb" id="sb2"><span class="n"><span>2</span></span> Verify</div>
+          <div class="sb" id="sb3"><span class="n"><span>3</span></span> Payment</div>
         </div>
 
         <!-- STEP 1 — contact (abandon-cart start) -->
         <div class="fstep" data-step="1" id="step1">
           <h3 style="font-size:1.2rem;margin-bottom:6px;">Where Should We Send Your Access?</h3>
-          <p class="form-note">Step 1 of 2 — reserve your spot. You won't be charged yet.</p>
+          <p class="form-note">Step 1 of 3 — reserve your spot. You won't be charged yet.</p>
           <div class="form-grid">
             <div class="field"><label>First Name</label><input type="text" name="first_name" autocomplete="given-name" required></div>
             <div class="field"><label>Last Name</label><input type="text" name="last_name" autocomplete="family-name" required></div>
             <div class="field"><label>Email</label><input type="email" name="email" autocomplete="email" required></div>
             <div class="field"><label>Phone</label><input type="tel" name="phone" autocomplete="tel" required></div>
           </div>
-          <button type="button" id="to-step2" class="btn btn-gold btn-block btn-lg" style="margin-top:8px;">Continue to Payment →</button>
+          <button type="button" id="to-step2" class="btn btn-gold btn-block btn-lg" style="margin-top:8px;">Continue →</button>
           <p class="pay-note">No spam — your info secures your seat and your session reminders.</p>
         </div>
 
-        <!-- STEP 2 — billing / payment -->
+        <!-- STEP 2 — verify email (OTP) -->
         <div class="fstep" data-step="2" id="step2" hidden>
+          <div class="verify-head">
+            <h3 style="font-size:1.2rem;margin-bottom:6px;">Verify Your Email</h3>
+            <p class="form-note">Step 2 of 3 — we sent a 6-digit code to <strong id="otp-email" class="gold">your email</strong>. Enter it to confirm your registration.</p>
+          </div>
+          <div class="otp" id="otp">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 1">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 2">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 3">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 4">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 5">
+            <input type="text" inputmode="numeric" maxlength="1" aria-label="Digit 6">
+          </div>
+          <p class="otp-msg" id="otp-msg"></p>
+          <button type="button" id="verify-btn" class="btn btn-gold btn-block btn-lg">Verify &amp; Continue →</button>
+          <div style="text-align:center;">
+            <button type="button" class="back-link" id="resend">Resend code</button>
+            &nbsp;·&nbsp;
+            <button type="button" class="back-link" id="back-info">← Edit my info</button>
+          </div>
+          <p class="pay-note" id="otp-demo"></p>
+        </div>
+
+        <!-- STEP 3 — billing / payment -->
+        <div class="fstep" data-step="3" id="step3" hidden>
           <h3 style="font-size:1.2rem;margin:0 0 6px;">Payment</h3>
           <div class="form-grid">
             <div class="field full"><label>Card Number</label><input type="text" inputmode="numeric" name="card_number" placeholder="•••• •••• •••• ••••" aria-label="Card number (Square element on live build)"></div>
@@ -89,7 +114,7 @@
             <span class="g">All payment options shown</span>
             <span class="c">Hosted by Mike Jenkins · 100+ deals</span>
           </div>
-          <button type="button" class="back-link" id="back-step1">← Back to your info</button>
+          <button type="button" class="back-link" id="back-verify">← Back</button>
           <p class="pay-note">No refunds. By completing your order you agree to the summit terms.</p>
         </div>
       </form>
@@ -156,11 +181,21 @@
     document.getElementById("bump").addEventListener("change", recalc);
     recalc();
 
-    // ---- 2-step flow + abandon-cart START capture ----
-    var step1 = document.getElementById("step1"), step2 = document.getElementById("step2");
-    var sb1 = document.getElementById("sb1"), sb2 = document.getElementById("sb2");
+    // ---- 3-step flow: Info → Verify (email OTP) → Payment ----
+    var step1 = document.getElementById("step1");
+    var step2 = document.getElementById("step2");   // verify
+    var step3 = document.getElementById("step3");   // payment
+    var sb1 = document.getElementById("sb1"), sb2 = document.getElementById("sb2"), sb3 = document.getElementById("sb3");
     var form = document.getElementById("checkout-form");
-    var captured = false;
+    var captured = false, otpCode = "";
+
+    function go(showEl, activeSb, doneSbs) {
+      [step1, step2, step3].forEach(function (s) { s.hidden = s !== showEl; });
+      [sb1, sb2, sb3].forEach(function (b) { b.classList.remove("active", "done"); });
+      doneSbs.forEach(function (b) { b.classList.add("done"); });
+      activeSb.classList.add("active");
+      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
     function step1Valid() {
       return ["first_name", "last_name", "email", "phone"].every(function (n) {
@@ -178,25 +213,84 @@
         first_name: form.first_name.value, last_name: form.last_name.value,
         email: form.email.value, phone: form.phone.value
       };
-      // GHL BUILD: this is the abandon-cart START. The 2-step order form creates/updates
-      // the contact here and tags it (b2b_cart_abandon). Fire FB Lead + dataLayer too.
+      // GHL BUILD: abandon-cart START. The 2-step order form creates/updates the contact
+      // here and tags it (b2b_cart_abandon). Fire FB Lead + dataLayer too.
       if (window.dataLayer) window.dataLayer.push({ event: "cart_start", tier: key });
       try { console.log("[cart_start] captured:", data); } catch (e) {}
     }
 
+    // ---- OTP / email verification ----
+    var otpInputs = Array.prototype.slice.call(document.querySelectorAll("#otp input"));
+    var otpMsg = document.getElementById("otp-msg");
+    var otpDemo = document.getElementById("otp-demo");
+
+    function sendOtp() {
+      // DEMO: generate + "send" a 6-digit code client-side.
+      // GHL BUILD: replace with a real send (email/SMS verification service, e.g. Twilio
+      // Verify or an email-code action). Do NOT reveal the code on the live build.
+      otpCode = String(Math.floor(100000 + Math.random() * 900000));
+      document.getElementById("otp-email").textContent = form.email.value || "your email";
+      try { console.log("[otp] sent code:", otpCode, "to", form.email.value); } catch (e) {}
+      otpDemo.textContent = "Demo only — your code is " + otpCode + " (on the live build this is emailed, not shown).";
+      otpInputs.forEach(function (i) { i.value = ""; });
+      otpMsg.textContent = ""; otpMsg.className = "otp-msg";
+      if (otpInputs[0]) otpInputs[0].focus();
+    }
+
+    function otpValue() { return otpInputs.map(function (i) { return i.value; }).join(""); }
+
+    // auto-advance / backspace / paste across the 6 boxes
+    otpInputs.forEach(function (inp, idx) {
+      inp.addEventListener("input", function () {
+        inp.value = inp.value.replace(/\D/g, "").slice(0, 1);
+        if (inp.value && idx < otpInputs.length - 1) otpInputs[idx + 1].focus();
+      });
+      inp.addEventListener("keydown", function (e) {
+        if (e.key === "Backspace" && !inp.value && idx > 0) otpInputs[idx - 1].focus();
+      });
+      inp.addEventListener("paste", function (e) {
+        var d = (e.clipboardData || window.clipboardData).getData("text").replace(/\D/g, "").slice(0, 6);
+        if (!d) return;
+        e.preventDefault();
+        d.split("").forEach(function (ch, i) { if (otpInputs[i]) otpInputs[i].value = ch; });
+        (otpInputs[Math.min(d.length, 5)] || inp).focus();
+      });
+    });
+
+    // Step 1 → Verify
     document.getElementById("to-step2").addEventListener("click", function () {
       if (!step1Valid()) return;
       captureCartStart();
-      step1.hidden = true; step2.hidden = false;
-      sb1.classList.add("done"); sb2.classList.add("active");
-      form.scrollIntoView({ behavior: "smooth", block: "start" });
+      sendOtp();
+      go(step2, sb2, [sb1]);
     });
 
-    document.getElementById("back-step1").addEventListener("click", function () {
-      step2.hidden = true; step1.hidden = false;
-      sb2.classList.remove("active"); sb1.classList.remove("done");
-      form.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Verify → Payment
+    document.getElementById("verify-btn").addEventListener("click", function () {
+      var val = otpValue();
+      if (val.length < 6) {
+        otpMsg.textContent = "Enter all 6 digits."; otpMsg.className = "otp-msg err";
+        document.getElementById("otp").classList.add("bad");
+        setTimeout(function () { document.getElementById("otp").classList.remove("bad"); }, 350);
+        return;
+      }
+      if (val !== otpCode) {
+        otpMsg.textContent = "That code didn't match. Try again or resend."; otpMsg.className = "otp-msg err";
+        document.getElementById("otp").classList.add("bad");
+        setTimeout(function () { document.getElementById("otp").classList.remove("bad"); }, 350);
+        return;
+      }
+      otpMsg.textContent = "Verified ✓"; otpMsg.className = "otp-msg ok";
+      if (window.dataLayer) window.dataLayer.push({ event: "email_verified", tier: key });
+      go(step3, sb3, [sb1, sb2]);
     });
+
+    document.getElementById("resend").addEventListener("click", function () {
+      sendOtp();
+      otpMsg.textContent = "New code sent."; otpMsg.className = "otp-msg ok";
+    });
+    document.getElementById("back-info").addEventListener("click", function () { go(step1, sb1, []); });
+    document.getElementById("back-verify").addEventListener("click", function () { go(step2, sb2, [sb1]); });
   })();
 </script>
 </body>
