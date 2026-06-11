@@ -264,7 +264,7 @@
 .bottomcta .cta-grid { position: relative; z-index: 1; display: grid; grid-template-columns: .85fr 1.15fr; gap: 40px; align-items: center; }
 .bottomcta .cta-media { display: flex; justify-content: center; }
 .bottomcta .cta-media .slot { aspect-ratio: 5/6; }
-.cta-art { width: 100%; max-width: 430px; height: auto; display: block; filter: drop-shadow(0 18px 40px rgba(0,0,0,.5)); }
+.cta-art { width: 100%; max-width: 280px; height: auto; display: block; filter: drop-shadow(0 18px 40px rgba(0,0,0,.5)); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
